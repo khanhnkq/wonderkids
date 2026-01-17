@@ -30,11 +30,46 @@ const LessonList: React.FC = () => {
     // Define color theme based on age group directly
     const getTheme = () => {
         switch (ageId) {
-            case '6-8': return { bg: 'bg-[#a5f3fc]', border: 'border-[#22d3ee]', text: 'text-[#0e7490]', lightBg: 'bg-[#ecfeff]' };
-            case '9-11': return { bg: 'bg-[#fef08a]', border: 'border-[#facc15]', text: 'text-[#a16207]', lightBg: 'bg-[#fefce8]' };
-            case '12-14': return { bg: 'bg-[#e9d5ff]', border: 'border-[#c084fc]', text: 'text-[#7e22ce]', lightBg: 'bg-[#faf5ff]' };
-            case '15-17': return { bg: 'bg-[#bbf7d0]', border: 'border-[#4ade80]', text: 'text-[#15803d]', lightBg: 'bg-[#f0fdf4]' };
-            default: return { bg: 'bg-brand-purple', border: 'border-brand-darkPurple', text: 'text-brand-purple', lightBg: 'bg-gray-50' };
+            case '6-8': return {
+                bg: 'bg-[#a5f3fc]',
+                border: 'border-[#22d3ee]',
+                text: 'text-[#0e7490]',
+                lightBg: 'bg-[#ecfeff]',
+                buttonClass: 'bg-cyan-600 hover:bg-cyan-700 text-white shadow-cyan-200',
+                bgImage: '/images/bg_sky.png'
+            };
+            case '9-11': return {
+                bg: 'bg-[#fef08a]',
+                border: 'border-[#facc15]',
+                text: 'text-[#a16207]',
+                lightBg: 'bg-[#fefce8]',
+                buttonClass: 'bg-yellow-600 hover:bg-yellow-700 text-white shadow-yellow-200',
+                bgImage: '/images/bg_sun.jpg'
+            };
+            case '12-14': return {
+                bg: 'bg-[#e9d5ff]',
+                border: 'border-[#c084fc]',
+                text: 'text-[#7e22ce]',
+                lightBg: 'bg-[#faf5ff]',
+                buttonClass: 'bg-purple-600 hover:bg-purple-700 text-white shadow-purple-200',
+                bgImage: '/images/bg_twilight.jpg'
+            };
+            case '15-17': return {
+                bg: 'bg-[#bbf7d0]',
+                border: 'border-[#4ade80]',
+                text: 'text-[#15803d]',
+                lightBg: 'bg-[#f0fdf4]',
+                buttonClass: 'bg-green-600 hover:bg-green-700 text-white shadow-green-200',
+                bgImage: '/images/bg_forest.jpg'
+            };
+            default: return {
+                bg: 'bg-brand-purple',
+                border: 'border-brand-darkPurple',
+                text: 'text-brand-purple',
+                lightBg: 'bg-gray-50',
+                buttonClass: 'bg-brand-purple hover:bg-brand-darkPurple text-white',
+                bgImage: '/images/bg_sky.png'
+            };
         }
     };
 
@@ -66,8 +101,23 @@ const LessonList: React.FC = () => {
     ];
 
     return (
-        <div className={`min-h-screen ${theme.lightBg} font-sans selection:bg-brand-yellow/30`}>
-            <Navbar />
+        <div className={`min-h-screen font-sans selection:bg-brand-yellow/30 relative overflow-hidden`}>
+            {/* Thematic Background Layer */}
+            <div className="fixed inset-0 z-0">
+                <img
+                    src={theme.bgImage}
+                    alt="theme-background"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                    }}
+                />
+                {/* Overlays for readability */}
+                <div className={`absolute inset-0 ${theme.lightBg} opacity-70 mix-blend-multiply`} />
+                <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+            </div>
+
+
 
             <TourGuide
                 steps={tourSteps}
@@ -78,12 +128,12 @@ const LessonList: React.FC = () => {
                 }}
             />
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
                 {/* Decorative Elements */}
-                <div className="hidden lg:block absolute top-[15%] left-10 text-brand-purple/10">
+                <div className="hidden lg:block absolute top-[15%] left-10 text-brand-purple/20">
                     <ScribbleLoop className="w-24 h-24" />
                 </div>
-                <div className="hidden lg:block absolute bottom-[10%] right-5 text-brand-yellow/20">
+                <div className="hidden lg:block absolute bottom-[10%] right-5 text-brand-yellow/30">
                     <ScribbleLoop className="w-32 h-32 rotate-90" />
                 </div>
 
@@ -130,66 +180,70 @@ const LessonList: React.FC = () => {
                             <div
                                 key={lesson.id}
                                 id={index === 0 ? 'first-lesson' : undefined}
-                                className={`
-                                    group bg-white rounded-[2.5rem] p-3
-                                    border-b-8 border-r-4 border-l-2 border-t-2 ${theme.border}
-                                    shadow-lg hover:shadow-2xl
-                                    transition-all duration-300 hover:-translate-y-2 hover:rotate-1 cursor-pointer
-                                    flex flex-col
-                                `}
+                                className="animate-pop-up group bg-white/60 backdrop-blur-xl border border-white/50 rounded-[2.5rem] shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden cursor-pointer flex flex-col h-full ring-4 ring-transparent hover:ring-white/50"
                                 onClick={() => navigate(`/lesson/${lesson.id}`)}
+                                style={{ animationDelay: `${index * 150}ms` }}
                             >
-                                {/* Image Container (Inner Frame) */}
-                                <div className="relative h-48 rounded-[2rem] overflow-hidden mb-4 shadow-inner">
-                                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors z-10" />
+                                {/* Image Section */}
+                                <div className="relative h-56 overflow-hidden">
+                                    {/* Dark Gradient Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-60 group-hover:opacity-80 transition-opacity" />
+
                                     <img
                                         src={lesson.thumbnail}
                                         alt={lesson.title}
                                         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                                     />
 
-                                    {/* Category Sticker */}
-                                    <div className="absolute top-2 left-2 z-20">
-                                        <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider border-2 border-white shadow-md transform -rotate-3
-                                            ${lesson.category === 'Body' ? 'bg-blue-400 text-white' :
-                                                lesson.category === 'Safety' ? 'bg-red-400 text-white' :
-                                                    lesson.category === 'Respect' ? 'bg-green-400 text-white' :
-                                                        'bg-purple-400 text-white'
-                                            }`}
-                                        >
-                                            {lesson.category === 'Body' ? '★ Cơ thể' :
-                                                lesson.category === 'Safety' ? '★ An toàn' :
-                                                    lesson.category === 'Respect' ? '★ Tôn trọng' : '★ Cảm xúc'}
+                                    {/* Play Button Overlay (Centered) */}
+                                    <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-75 group-hover:scale-100">
+                                        <div className="w-16 h-16 bg-white/30 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+                                            <Play size={32} fill="white" className="text-white ml-1" />
+                                        </div>
+                                    </div>
+
+                                    {/* Top Badges */}
+                                    <div className="absolute top-4 left-4 z-20 flex gap-2">
+                                        <span className={`
+                                            px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white border border-white/20 shadow-lg backdrop-blur-md
+                                            ${lesson.category === 'Body' ? 'bg-blue-500/80' :
+                                                lesson.category === 'Safety' ? 'bg-red-500/80' :
+                                                    lesson.category === 'Respect' ? 'bg-green-500/80' : 'bg-purple-500/80'}
+                                        `}>
+                                            {lesson.category === 'Body' ? 'Cơ thể' :
+                                                lesson.category === 'Safety' ? 'An toàn' :
+                                                    lesson.category === 'Respect' ? 'Tôn trọng' : 'Cảm xúc'}
                                         </span>
                                     </div>
 
-                                    {/* Duration Sticker */}
-                                    <div className="absolute bottom-2 right-2 z-20">
-                                        <div className="bg-white/95 backdrop-blur px-2 py-1 rounded-xl text-xs font-bold text-gray-800 flex items-center gap-1 shadow-sm border-2 border-white/50">
+                                    <div className="absolute top-4 right-4 z-20">
+                                        <div className="bg-black/30 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white flex items-center gap-1 border border-white/20 shadow-lg">
                                             <Clock size={12} className="text-brand-yellow" /> {lesson.duration}
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Content Body */}
-                                <div className="px-2 pb-2 flex-grow flex flex-col">
-                                    <h3 className="text-xl font-black text-gray-800 mb-2 leading-tight group-hover:text-brand-purple transition-colors">
+                                <div className="p-6 flex flex-col flex-grow">
+                                    <h3 className="text-2xl font-black text-gray-900 mb-3 leading-tight group-hover:text-brand-purple transition-colors">
                                         {lesson.title}
                                     </h3>
-                                    <p className="text-gray-500 text-sm mb-4 line-clamp-2 leading-relaxed font-medium">
+                                    <p className="text-gray-600 text-sm mb-6 line-clamp-2 leading-relaxed font-medium">
                                         {lesson.description}
                                     </p>
 
-                                    {/* Play Button */}
+                                    {/* Button */}
                                     <div className="mt-auto">
                                         <button className={`
-                                            w-full py-3 rounded-2xl font-black text-sm uppercase tracking-wide
-                                            flex items-center justify-center gap-2
-                                            ${theme.bg} ${theme.text}
-                                            group-hover:bg-brand-purple group-hover:text-white
-                                            transition-all duration-300 shadow-sm
+                                            w-full py-3 rounded-full font-black ${theme.buttonClass}
+                                            shadow-lg group-hover:shadow-xl group-hover:scale-[1.02]
+                                            transition-all duration-300
+                                            flex items-center justify-between px-2 pl-6
                                         `}>
-                                            <Play size={16} fill="currentColor" /> Bắt đầu học
+                                            <span className="text-xs uppercase tracking-widest">Bắt đầu học</span>
+                                            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                                                <Play size={14} fill="currentColor" />
+                                            </div>
                                         </button>
                                     </div>
                                 </div>

@@ -87,59 +87,68 @@ const TopicSelection: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {ageGroups.map((group) => (
+                    {ageGroups.map((group, index) => (
                         <div
                             key={group.id}
                             onClick={() => navigate(`/lessons/${group.id}`)}
-                            className={`
-                                group relative p-8 rounded-[2.5rem] border-4 
-                                ${group.borderColor} ${group.color} ${group.hoverColor}
-                                cursor-pointer transition-all duration-300 hover:-translate-y-3 hover:rotate-1 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)]
-                                flex flex-col h-full
-                            `}
+                            className="animate-pop-up group relative h-[32rem] rounded-[2.5rem] overflow-hidden cursor-pointer shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl"
+                            style={{ animationDelay: `${index * 150}ms` }}
                         >
-                            {/* Card Header Illustration */}
-                            <div className="relative mb-6 transform group-hover:scale-105 transition-transform duration-500">
-                                <div className="absolute inset-0 bg-white/40 rounded-full blur-2xl group-hover:blur-3xl transition-all" />
+                            {/* Background Image with Zoom Effect */}
+                            <div className="absolute inset-0">
                                 <img
                                     src={group.img}
                                     alt={group.title}
-                                    className="relative w-40 h-40 mx-auto object-cover object-top rounded-3xl drop-shadow-md z-10"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     onError={(e) => {
-                                        // Fallback if image not generated yet
-                                        e.currentTarget.src = "https://placehold.co/200x200/png?text=Image";
+                                        e.currentTarget.src = "https://placehold.co/400x600/png?text=WonderKids";
                                     }}
                                 />
+                                {/* Gradient Overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90 transition-opacity duration-300" />
                             </div>
 
-                            {/* Text Content */}
-                            <div className="relative z-10 text-center flex-grow">
-                                <div className="mb-2">
-                                    <span className={`inline-block px-3 py-1 bg-white/60 rounded-full text-xs font-black tracking-widest uppercase ${group.textColor}`}>
-                                        Giai đoạn
+                            {/* Content Layer */}
+                            <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
+
+
+                                {/* Age Indicator */}
+                                <div className="mb-2 overflow-hidden">
+                                    <span className={`inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold tracking-widest uppercase transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-100`}>
+                                        Độ tuổi phù hợp
                                     </span>
                                 </div>
-                                <h3 className={`text-2xl font-black mb-2 ${group.textColor} drop-shadow-sm`}>
+
+                                {/* Title & Subtitle */}
+                                <h3 className="text-4xl font-black mb-2 tracking-tight group-hover:text-brand-yellow transition-colors duration-300">
                                     {group.title}
                                 </h3>
-                                <p className="font-bold text-gray-700 text-sm mb-4 leading-tight opacity-90">
+                                <div className={`h-1 w-20 rounded-full mb-4 ${group.color}`} />
+
+                                <p className="text-xl font-bold mb-3 text-white/90">
                                     {group.subtitle}
                                 </p>
-                                <p className="text-gray-600 text-sm line-clamp-3 mb-6 bg-white/40 p-3 rounded-xl">
+
+                                {/* Description - Expandable on hover could be nice, but keeping it visible is safer for UX */}
+                                <p className="text-gray-200 text-sm leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
                                     {group.desc}
                                 </p>
-                            </div>
 
-                            {/* Button */}
-                            <div className="mt-auto">
-                                <button className="w-full bg-white text-gray-800 py-3 rounded-2xl font-bold shadow-sm group-hover:bg-brand-purple group-hover:text-white transition-colors flex items-center justify-center gap-2">
-                                    Khám phá <ArrowUpRight size={18} />
+                                {/* CTA Button */}
+                                <button className={`
+                                    w-full py-2 rounded-full font-black text-white bg-white/20 backdrop-blur-md
+                                    border border-white/30
+                                    transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 
+                                    transition-all duration-500 ease-out shadow-2xl
+                                    hover:bg-white hover:text-gray-900 hover:border-white
+                                    flex items-center justify-between px-2 pl-5 group/btn
+                                `}>
+                                    <span className="text-xs font-black uppercase tracking-widest">Khám phá</span>
+                                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center group-hover/btn:rotate-45 transition-transform duration-300 group-hover:bg-gray-100">
+                                        <ArrowUpRight size={16} />
+                                    </div>
                                 </button>
                             </div>
-
-                            {/* Fun Badge/Sticker Effect */}
-                            <div className={`absolute w-4 h-4 rounded-full bg-white/50 ${group.decor}`} />
-                            <div className={`absolute w-2 h-2 rounded-full bg-white/30 top-1/2 left-4`} />
                         </div>
                     ))}
                 </div>

@@ -3,10 +3,9 @@ import { Teacher } from '../types';
 import { Sparkle } from './Icons';
 
 const teachers: Teacher[] = [
-  { id: 1, name: "Dr. Kristin Watson", role: "Bác sĩ Nhi khoa", image: "https://picsum.photos/seed/teacher1/150/150", color: "bg-yellow-100" },
-  { id: 2, name: "Ms. Jenny Wilson", role: "Chuyên gia Tâm lý", image: "https://picsum.photos/seed/teacher2/150/150", color: "bg-pink-100" },
-  { id: 3, name: "Mr. Jacob Jones", role: "Giáo viên Kỹ năng", image: "https://picsum.photos/seed/teacher3/150/150", color: "bg-blue-100" },
-  { id: 4, name: "Mrs. Savannah N.", role: "Cố vấn Giáo dục", image: "https://picsum.photos/seed/teacher4/150/150", color: "bg-green-100" },
+  { id: 1, name: "Lương Ngọc Bảo Trân", role: "Thành viên", image: "/images/avatars/member1.jpg", color: "bg-yellow-100" },
+  { id: 2, name: "Phan Thị Thuỳ Nhung", role: "Thành viên", image: "/images/avatars/member2.jpg", color: "bg-pink-100" },
+  { id: 3, name: "Nguyễn Gia Triều", role: "Thành viên", image: "/images/avatars/member3.jpg", color: "bg-blue-100" },
 ];
 
 const Mission: React.FC = () => {
@@ -28,7 +27,7 @@ const Mission: React.FC = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="flex flex-wrap justify-center gap-20">
           {teachers.map((teacher) => (
             <div key={teacher.id} className="text-center group cursor-pointer">
               <div className="relative inline-block mb-4">
