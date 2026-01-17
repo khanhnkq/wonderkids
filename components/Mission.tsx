@@ -1,6 +1,7 @@
 import React from 'react';
 import { Teacher } from '../types';
 import { Sparkle } from './Icons';
+import FadeIn from './animations/FadeIn';
 
 const teachers: Teacher[] = [
   { id: 1, name: "Lương Ngọc Bảo Trân", role: "Thành viên", image: "/images/avatars/member1.jpg", color: "bg-yellow-100" },
@@ -20,30 +21,34 @@ const Mission: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-            Chúng tôi mong muốn giúp trẻ <br />
-            <span className="text-brand-yellow italic font-hand">khám phá và yêu thương</span> <br />
-            bản thân để phát triển toàn diện.
-          </h2>
+          <FadeIn delay={0.2}>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+              Chúng tôi mong muốn giúp trẻ <br />
+              <span className="text-brand-yellow italic font-hand">khám phá và yêu thương</span> <br />
+              bản thân để phát triển toàn diện.
+            </h2>
+          </FadeIn>
         </div>
 
         <div className="flex flex-wrap justify-center gap-20">
-          {teachers.map((teacher) => (
-            <div key={teacher.id} className="text-center group cursor-pointer">
-              <div className="relative inline-block mb-4">
-                {/* Circle background with hover effect */}
-                <div className={`absolute inset-0 ${teacher.color} rounded-full transform scale-0 group-hover:scale-110 transition-transform duration-300 -z-10`}></div>
-                <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 group-hover:border-white transition-colors overflow-hidden mx-auto bg-white/5">
-                  <img src={teacher.image} alt={teacher.name} className="w-full h-full object-cover rounded-full" />
+          {teachers.map((teacher, index) => (
+            <FadeIn key={teacher.id} delay={0.3 + index * 0.2}>
+              <div className="text-center group cursor-pointer">
+                <div className="relative inline-block mb-4">
+                  {/* Circle background with hover effect */}
+                  <div className={`absolute inset-0 ${teacher.color} rounded-full transform scale-0 group-hover:scale-110 transition-transform duration-300 -z-10`}></div>
+                  <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 group-hover:border-white transition-colors overflow-hidden mx-auto bg-white/5">
+                    <img src={teacher.image} alt={teacher.name} className="w-full h-full object-cover rounded-full" />
+                  </div>
+                  {/* Hover Icon */}
+                  <div className="absolute bottom-0 right-0 bg-white text-brand-purple rounded-full p-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all">
+                    <Sparkle className="w-4 h-4" />
+                  </div>
                 </div>
-                {/* Hover Icon */}
-                <div className="absolute bottom-0 right-0 bg-white text-brand-purple rounded-full p-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all">
-                  <Sparkle className="w-4 h-4" />
-                </div>
+                <h3 className="text-white font-bold text-lg">{teacher.name}</h3>
+                <p className="text-brand-lightPurple text-sm">{teacher.role}</p>
               </div>
-              <h3 className="text-white font-bold text-lg">{teacher.name}</h3>
-              <p className="text-brand-lightPurple text-sm">{teacher.role}</p>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </div>
