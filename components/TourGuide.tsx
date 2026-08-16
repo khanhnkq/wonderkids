@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronRight, ChevronLeft } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export interface TourStep {
     targetId: string;
@@ -18,6 +19,7 @@ interface TourGuideProps {
 const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [positionStyle, setPositionStyle] = useState<React.CSSProperties>({});
+    const { t } = useLanguage();
 
     useEffect(() => {
         if (isOpen) {
@@ -66,11 +68,6 @@ const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
                 finalPosition = 'top';
             }
 
-            // Calculate base position
-            let topPosition = 0;
-            let leftPosition = 0;
-            let transformString = '';
-
             // Horizontal Clamping Function
             const getClampedLeft = (targetCenter: number) => {
                 const halfWidth = TOOLTIP_WIDTH / 2;
@@ -79,16 +76,9 @@ const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
 
                 let left = targetCenter;
 
-                // If moving left center puts left edge offscreen
                 if (left - halfWidth < PADDING) {
                     left = halfWidth + PADDING;
-                    // Adjust transform to not be strictly centered if needed, 
-                    // but for simplicity here we just shift the 'left' coordinate 
-                    // and keep translate(-50%) so it effectively shifts the box right.
-                    // Actually, if we want strict clamping with translate(-50%), 
-                    // we need to set left such that (left - 150) > 20 => left > 170.
                 }
-                // If moving right center puts right edge offscreen
                 if (left + halfWidth > screenWidth - PADDING) {
                     left = screenWidth - PADDING - halfWidth;
                 }
@@ -150,12 +140,6 @@ const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
 
     return (
         <div className="fixed inset-0 z-[100] pointer-events-none">
-            {/* The dark overlay is actually handled via the box-shadow trick on the target element for smoother transition, 
-                 but we add a fallback simplified overlay for clicks outside if needed, 
-                 though pointer-events-none means we click through the empty spaces.
-                 Actually, simpler approach: Full screen overlay that is transparent, and we use z-index to bring target above.
-             */}
-
             {/* Simple click catcher for dismissal or blocking interaction */}
             <div className="absolute inset-0 z-40" style={{ pointerEvents: 'auto' }}></div>
 
@@ -167,13 +151,14 @@ const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
                 <button
                     onClick={onClose}
                     className="absolute top-2 right-2 text-gray-300 hover:text-gray-500"
+                    title={t('tourGuide.skip')}
                 >
                     <X size={18} />
                 </button>
 
                 <div className="mb-3">
                     <span className="inline-block px-2 py-0.5 rounded-full bg-brand-purple/10 text-brand-purple text-[10px] font-black uppercase tracking-wider mb-1">
-                        Bước {currentStep + 1}/{steps.length}
+                        {t('tourGuide.stepOf')} {currentStep + 1}/{steps.length}
                     </span>
                     <h3 className="text-lg font-black text-gray-900 mb-1">{step.title}</h3>
                     <p className="text-gray-600 leading-snug font-medium text-xs">
@@ -186,6 +171,7 @@ const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
                         onClick={handlePrev}
                         disabled={currentStep === 0}
                         className={`p-1.5 rounded-lg hover:bg-gray-100 transition-colors ${currentStep === 0 ? 'invisible' : ''}`}
+                        title={t('tourGuide.back')}
                     >
                         <ChevronLeft size={18} />
                     </button>
@@ -203,7 +189,7 @@ const TourGuide: React.FC<TourGuideProps> = ({ steps, isOpen, onClose }) => {
                         onClick={handleNext}
                         className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-brand-purple text-white text-xs font-bold hover:bg-brand-darkPurple shadow-sm hover:shadow transition-all hover:-translate-y-0.5"
                     >
-                        {currentStep === steps.length - 1 ? 'Xong' : 'Tiếp'}
+                        {currentStep === steps.length - 1 ? t('tourGuide.finish') : t('tourGuide.next')}
                         {currentStep !== steps.length - 1 && <ChevronRight size={14} />}
                     </button>
                 </div>

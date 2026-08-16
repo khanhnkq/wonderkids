@@ -3,57 +3,59 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { ArrowUpRight } from 'lucide-react';
 import { ScribbleArrow, ScribbleUnderline, ScribbleLoop } from '../components/Icons';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const TopicSelection: React.FC = () => {
     const navigate = useNavigate();
+    const { t } = useLanguage();
 
     const ageGroups = [
         {
             id: '6-8',
-            title: '6 - 8 Tuổi',
-            subtitle: 'Khám phá cơ thể & An toàn',
-            color: 'bg-[#a5f3fc]', // Cyan-200
-            borderColor: 'border-[#22d3ee]', // Cyan-400
-            textColor: 'text-[#0e7490]', // Cyan-700
+            title: t('topicSelection.age6_8.title'),
+            subtitle: t('topicSelection.age6_8.subtitle'),
+            color: 'bg-[#a5f3fc]',
+            borderColor: 'border-[#22d3ee]',
+            textColor: 'text-[#0e7490]',
             hoverColor: 'hover:bg-[#67e8f9]',
             img: '/age-6-8.png',
-            desc: 'Học về tên gọi cơ thể, vùng riêng tư và kỹ năng tự bảo vệ.',
+            desc: t('topicSelection.age6_8.desc'),
             decor: 'top-2 right-2'
         },
         {
             id: '9-11',
-            title: '9 - 11 Tuổi',
-            subtitle: 'Tuổi dậy thì & Cảm xúc',
-            color: 'bg-[#fef08a]', // Yellow-200
-            borderColor: 'border-[#facc15]', // Yellow-400
-            textColor: 'text-[#a16207]', // Yellow-700
+            title: t('topicSelection.age9_11.title'),
+            subtitle: t('topicSelection.age9_11.subtitle'),
+            color: 'bg-[#fef08a]',
+            borderColor: 'border-[#facc15]',
+            textColor: 'text-[#a16207]',
             hoverColor: 'hover:bg-[#fde047]',
             img: '/age-9-11.png',
-            desc: 'Tìm hiểu những thay đổi của cơ thể và quản lý cảm xúc.',
+            desc: t('topicSelection.age9_11.desc'),
             decor: 'bottom-2 left-2'
         },
         {
             id: '12-14',
-            title: '12 - 14 Tuổi',
-            subtitle: 'Tôn trọng & Trưởng thành',
-            color: 'bg-[#e9d5ff]', // Purple-200
-            borderColor: 'border-[#c084fc]', // Purple-400
-            textColor: 'text-[#7e22ce]', // Purple-700
+            title: t('topicSelection.age12_14.title'),
+            subtitle: t('topicSelection.age12_14.subtitle'),
+            color: 'bg-[#e9d5ff]',
+            borderColor: 'border-[#c084fc]',
+            textColor: 'text-[#7e22ce]',
             hoverColor: 'hover:bg-[#d8b4fe]',
             img: '/age-12-14.png',
-            desc: 'Kiến thức khoa học về sức khỏe sinh sản và sự đồng thuận.',
+            desc: t('topicSelection.age12_14.desc'),
             decor: 'top-10 -right-4'
         },
         {
             id: '15-17',
-            title: '15 - 17 Tuổi',
-            subtitle: 'Trách nhiệm & Quyết định',
-            color: 'bg-[#bbf7d0]', // Green-200
-            borderColor: 'border-[#4ade80]', // Green-400
-            textColor: 'text-[#15803d]', // Green-700
+            title: t('topicSelection.age15_17.title'),
+            subtitle: t('topicSelection.age15_17.subtitle'),
+            color: 'bg-[#bbf7d0]',
+            borderColor: 'border-[#4ade80]',
+            textColor: 'text-[#15803d]',
             hoverColor: 'hover:bg-[#86efac]',
             img: '/age-15-17.png',
-            desc: 'Hiểu về mối quan hệ lành mạnh, trách nhiệm cá nhân và kỹ năng số.',
+            desc: t('topicSelection.age15_17.desc'),
             decor: '-bottom-4 -right-2'
         }
     ];
@@ -73,16 +75,16 @@ const TopicSelection: React.FC = () => {
 
                 <div className="flex flex-col items-center text-center mb-20 relative z-10">
                     <span className="py-1 px-3 rounded-full bg-brand-lightPurple text-brand-purple text-sm font-bold tracking-wider uppercase mb-4 animate-bounce">
-                        Bắt đầu hành trình
+                        {t('topicSelection.tag')}
                     </span>
                     <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 relative inline-block">
-                        Con đang ở độ tuổi nào?
+                        {t('topicSelection.title')}
                         <span className="absolute -bottom-6 right-0 hidden md:block text-brand-yellow">
                             <ScribbleUnderline className="w-64" />
                         </span>
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        Chọn một cánh cửa để bước vào thế giới kiến thức thú vị, an toàn và đầy màu sắc!
+                        {t('topicSelection.subtitle')}
                     </p>
                 </div>
 
@@ -111,11 +113,10 @@ const TopicSelection: React.FC = () => {
                             {/* Content Layer */}
                             <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
 
-
                                 {/* Age Indicator */}
                                 <div className="mb-2 overflow-hidden">
-                                    <span className={`inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold tracking-widest uppercase transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-100`}>
-                                        Độ tuổi phù hợp
+                                    <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold tracking-widest uppercase transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 delay-100">
+                                        {group.id}
                                     </span>
                                 </div>
 
@@ -129,21 +130,21 @@ const TopicSelection: React.FC = () => {
                                     {group.subtitle}
                                 </p>
 
-                                {/* Description - Expandable on hover could be nice, but keeping it visible is safer for UX */}
+                                {/* Description */}
                                 <p className="text-gray-200 text-sm leading-relaxed mb-6 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
                                     {group.desc}
                                 </p>
 
                                 {/* CTA Button */}
-                                <button className={`
+                                <button className="
                                     w-full py-2 rounded-full font-black text-white bg-white/20 backdrop-blur-md
                                     border border-white/30
                                     transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 
                                     transition-all duration-500 ease-out shadow-2xl
                                     hover:bg-white hover:text-gray-900 hover:border-white
                                     flex items-center justify-between px-2 pl-5 group/btn
-                                `}>
-                                    <span className="text-xs font-black uppercase tracking-widest">Khám phá</span>
+                                ">
+                                    <span className="text-xs font-black uppercase tracking-widest">{t('common.explore')}</span>
                                     <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center group-hover/btn:rotate-45 transition-transform duration-300 group-hover:bg-gray-100">
                                         <ArrowUpRight size={16} />
                                     </div>

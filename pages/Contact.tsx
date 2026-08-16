@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Send, User, Mail, Phone, MessageSquare, CheckCircle } from 'lucide-react';
-import { ScribbleLoop, ScribbleUnderline, ScribbleArrow } from '../components/Icons';
+import { ScribbleLoop, ScribbleUnderline } from '../components/Icons';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Contact: React.FC = () => {
     const [submitted, setSubmitted] = useState(false);
+    const { t } = useLanguage();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setSubmitted(true);
-        // Simulate API call
         setTimeout(() => setSubmitted(false), 5000);
     };
 
@@ -29,23 +30,23 @@ const Contact: React.FC = () => {
             <main className="max-w-4xl mx-auto px-4 py-16 relative z-10">
                 <div className="flex flex-col items-center text-center mb-12">
                     <span className="inline-block px-4 py-1.5 rounded-full bg-brand-purple/10 text-brand-purple font-black tracking-wider uppercase mb-4 animate-fade-in">
-                        Kết nối với WonderKids
+                        {t('contact.badge')}
                     </span>
                     <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 relative inline-block">
-                        Liên hệ tư vấn
+                        {t('contact.title')}
                         <span className="absolute -bottom-4 right-0 w-full text-brand-yellow">
                             <ScribbleUnderline />
                         </span>
                     </h1>
                     <p className="text-xl text-gray-600 max-w-2xl mx-auto mt-6">
-                        Ba mẹ để lại thông tin, WonderKids sẽ liên hệ lại ngay để tư vấn lộ trình học phù hợp nhất cho bé nhé!
+                        {t('contact.subtitle')}
                     </p>
                 </div>
 
                 <div className="bg-white rounded-[2.5rem] shadow-xl p-8 md:p-12 relative border-4 border-white">
                     {/* Decorative Sticker */}
                     <div className="absolute -top-6 -right-6 bg-brand-yellow text-yellow-900 font-bold px-6 py-2 rounded-full transform rotate-12 shadow-md hidden md:block">
-                        Hỗ trợ 24/7 ✨
+                        {t('contact.support247')}
                     </div>
 
                     {submitted ? (
@@ -53,15 +54,15 @@ const Contact: React.FC = () => {
                             <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                                 <CheckCircle size={48} className="text-green-600" />
                             </div>
-                            <h3 className="text-3xl font-black text-gray-900 mb-4">Gửi thành công!</h3>
+                            <h3 className="text-3xl font-black text-gray-900 mb-4">{t('contact.successTitle')}</h3>
                             <p className="text-xl text-gray-600">
-                                Cảm ơn ba mẹ. WonderKids sẽ liên hệ lại sớm nhất có thể ạ! ❤️
+                                {t('contact.successDesc')}
                             </p>
                             <button
                                 onClick={() => setSubmitted(false)}
                                 className="mt-8 text-brand-purple font-bold hover:underline"
                             >
-                                Gửi thêm thông tin khác
+                                {t('contact.sendAnother')}
                             </button>
                         </div>
                     ) : (
@@ -69,47 +70,47 @@ const Contact: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label className="font-bold text-gray-700 ml-1 flex items-center gap-2">
-                                        <User size={18} className="text-brand-purple" /> Họ và tên ba mẹ
+                                        <User size={18} className="text-brand-purple" /> {t('contact.nameLabel')}
                                     </label>
                                     <input
                                         type="text"
                                         required
                                         className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/10 transition-all font-medium outline-none placeholder:text-gray-400"
-                                        placeholder="Ví dụ: Nguyễn Văn A"
+                                        placeholder={t('contact.namePlaceholder')}
                                     />
                                 </div>
                                 <div className="space-y-2">
                                     <label className="font-bold text-gray-700 ml-1 flex items-center gap-2">
-                                        <Phone size={18} className="text-brand-purple" /> Số điện thoại
+                                        <Phone size={18} className="text-brand-purple" /> {t('contact.phoneLabel')}
                                     </label>
                                     <input
                                         type="tel"
                                         required
                                         className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/10 transition-all font-medium outline-none placeholder:text-gray-400"
-                                        placeholder="0912 345 678"
+                                        placeholder={t('contact.phonePlaceholder')}
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
                                 <label className="font-bold text-gray-700 ml-1 flex items-center gap-2">
-                                    <Mail size={18} className="text-brand-purple" /> Email (nếu có)
+                                    <Mail size={18} className="text-brand-purple" /> {t('contact.emailLabel')}
                                 </label>
                                 <input
                                     type="email"
                                     className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/10 transition-all font-medium outline-none placeholder:text-gray-400"
-                                    placeholder="ba_me@example.com"
+                                    placeholder={t('contact.emailPlaceholder')}
                                 />
                             </div>
 
                             <div className="space-y-2">
                                 <label className="font-bold text-gray-700 ml-1 flex items-center gap-2">
-                                    <MessageSquare size={18} className="text-brand-purple" /> Nội dung cần tư vấn
+                                    <MessageSquare size={18} className="text-brand-purple" /> {t('contact.messageLabel')}
                                 </label>
                                 <textarea
                                     rows={4}
                                     className="w-full px-6 py-4 rounded-2xl bg-gray-50 border-2 border-transparent focus:bg-white focus:border-brand-purple focus:ring-4 focus:ring-brand-purple/10 transition-all font-medium outline-none placeholder:text-gray-400 resize-none"
-                                    placeholder="Ba mẹ quan tâm đến khóa học cho bé mấy tuổi? Bé có vấn đề gì cần hỗ trợ không ạ?"
+                                    placeholder={t('contact.messagePlaceholder')}
                                 ></textarea>
                             </div>
 
@@ -118,7 +119,7 @@ const Contact: React.FC = () => {
                                 className="w-full bg-brand-purple hover:bg-brand-darkPurple text-white font-black text-lg py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all flex items-center justify-center gap-2 group"
                             >
                                 <Send size={20} className="group-hover:translate-x-1 transition-transform" />
-                                Gửi thông tin ngay
+                                {t('contact.submitButton')}
                             </button>
                         </form>
                     )}
@@ -145,7 +146,7 @@ const Contact: React.FC = () => {
                             <MessageSquare size={24} />
                         </div>
                         <h3 className="font-bold text-gray-900 mb-1">Facebook</h3>
-                        <p className="text-gray-500 font-medium">WonderKids Vietnam</p>
+                        <p className="text-gray-500 font-medium">WonderKids Official</p>
                     </div>
                 </div>
             </main>

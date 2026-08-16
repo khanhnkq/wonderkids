@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Sparkles, Brain, CheckCircle, AlertCircle, Play } from 'lucide-react';
 import { generateTriviaQuestion } from '../services/gemini';
 import { QuizState, QuizQuestion } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface QuizModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose }) => {
   const [state, setState] = useState<QuizState>(QuizState.IDLE);
   const [questionData, setQuestionData] = useState<QuizQuestion | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     if (isOpen && state === QuizState.IDLE) {
@@ -23,7 +25,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose }) => {
     setState(QuizState.LOADING);
     setSelectedAnswer(null);
     try {
-      const data = await generateTriviaQuestion();
+      const data = await generateTriviaQuestion(undefined, language);
       setQuestionData(data);
       setState(QuizState.QUESTION);
     } catch (e) {
@@ -49,7 +51,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose }) => {
         <div className="bg-brand-purple p-6 flex justify-between items-center text-white">
           <div className="flex items-center gap-2">
             <Sparkles className="animate-pulse" />
-            <h2 className="text-xl font-bold font-hand text-2xl">Trắc nghiệm AI</h2>
+            <h2 className="text-xl font-bold font-hand text-2xl">{t('quizModal.title')}</h2>
           </div>
           <button onClick={onClose} className="hover:bg-white/20 p-2 rounded-full transition-colors">
             <X size={24} />
@@ -61,19 +63,19 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose }) => {
           {state === QuizState.LOADING && (
             <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
               <div className="w-16 h-16 border-4 border-brand-purple border-t-transparent rounded-full animate-spin"></div>
-              <p className="text-gray-500 font-medium animate-pulse">Đang tìm câu hỏi thú vị...</p>
+              <p className="text-gray-500 font-medium animate-pulse">{t('quizModal.loading')}</p>
             </div>
           )}
 
           {state === QuizState.ERROR && (
             <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
               <Brain size={48} className="text-gray-300" />
-              <p className="text-red-500">Úi! AI đang nghỉ chút. Thử lại nhé!</p>
+              <p className="text-red-500">{t('quizModal.error')}</p>
               <button
                 onClick={loadNewQuestion}
                 className="bg-brand-purple text-white px-6 py-2 rounded-full font-bold hover:bg-brand-darkPurple"
               >
-                Thử lại
+                {t('quizModal.retry')}
               </button>
             </div>
           )}
@@ -121,7 +123,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose }) => {
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
                   <div className={`p-4 rounded-xl mb-4 ${selectedAnswer === questionData.correctAnswer ? 'bg-brand-yellow/20' : 'bg-gray-100'}`}>
                     <p className="text-gray-800 font-medium">
-                      <span className="font-bold mr-2">{selectedAnswer === questionData.correctAnswer ? 'Tuyệt vời!' : 'Cố lên!'}</span>
+                      <span className="font-bold mr-2">{selectedAnswer === questionData.correctAnswer ? t('quizModal.awesome') : t('quizModal.keepTrying')}</span>
                       {questionData.explanation}
                     </p>
                   </div>
@@ -129,7 +131,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose }) => {
                     onClick={loadNewQuestion}
                     className="w-full bg-brand-purple text-white py-3 rounded-full font-bold hover:bg-brand-darkPurple flex items-center justify-center gap-2"
                   >
-                    Câu tiếp theo <Play size={18} fill="currentColor" />
+                    {t('quizModal.nextQuestion')} <Play size={18} fill="currentColor" />
                   </button>
                 </div>
               )}

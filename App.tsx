@@ -8,22 +8,25 @@ import ParentZone from './pages/ParentZone';
 import Contact from './pages/Contact';
 import AIChatWidget from './components/AIChatWidget';
 import { ChatProvider } from './contexts/ChatContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 const App: React.FC = () => {
   return (
-    <ChatProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/curriculum" element={<TopicSelection />} />
-          <Route path="/lessons/:ageId" element={<LessonList />} />
-          <Route path="/lesson/:lessonId" element={<LessonPlayer />} />
-          <Route path="/parents" element={<ParentZone />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
-        <AIChatWidget />
-      </Router>
-    </ChatProvider>
+    <LanguageProvider>
+      <ChatProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/curriculum" element={<TopicSelection />} />
+            <Route path="/lessons/:ageId" element={<LessonList />} />
+            <Route path="/lesson/:lessonId" element={<LessonPlayer />} />
+            <Route path="/parents" element={<ParentZone />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+          <AIChatWidget />
+        </Router>
+      </ChatProvider>
+    </LanguageProvider>
   );
 };
 

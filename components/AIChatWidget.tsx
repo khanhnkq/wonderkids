@@ -1,16 +1,24 @@
 /// <reference types="vite/client" />
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle, X, Send, Bot, Sparkles, Key } from 'lucide-react';
+import { X, Send, Bot } from 'lucide-react';
 import { sendMessageToGemini, ChatMessage } from '../services/gemini';
 import { useChat } from '../contexts/ChatContext';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const AIChatWidget: React.FC = () => {
     const { isOpen, closeChat, toggleChat } = useChat();
-    const [messages, setMessages] = useState<ChatMessage[]>([
-        { role: 'model', text: 'Chào bạn nhỏ! 👋 Trợ lý WonderKids đây! Bạn có câu hỏi gì cho mình không? ✨' }
-    ]);
+    const { t, language } = useLanguage();
+
+    const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    // Re-initialize greeting when language changes if no messages have been typed
+    useEffect(() => {
+        setMessages([
+            { role: 'model', text: t('aiChat.initialGreeting') }
+        ]);
+    }, [language, t]);
 
     // Use key from env directly
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
@@ -28,7 +36,7 @@ const AIChatWidget: React.FC = () => {
         if (!input.trim() || isLoading) return;
 
         if (!apiKey) {
-            setMessages(prev => [...prev, { role: 'model', text: 'Ôi, mình chưa tìm thấy "Chìa khóa" (API Key) trong cấu hình rồi! Nhờ người lớn kiểm tra lại file .env giúp mình nhé. 🔑' }]);
+            setMessages(prev => [...prev, { role: 'model', text: t('aiChat.missingKeyNotice') }]);
             return;
         }
 
@@ -38,10 +46,10 @@ const AIChatWidget: React.FC = () => {
         setIsLoading(true);
 
         try {
-            const reply = await sendMessageToGemini(messages, userMsg, apiKey);
+            const reply = await sendMessageToGemini(messages, userMsg, apiKey, language);
             setMessages(prev => [...prev, { role: 'model', text: reply }]);
         } catch (error: any) {
-            setMessages(prev => [...prev, { role: 'model', text: 'Huhu, có lỗi rồi! ' + error.message }]);
+            setMessages(prev => [...prev, { role: 'model', text: t('aiChat.errorMessage') + error.message }]);
         } finally {
             setIsLoading(false);
         }
@@ -59,10 +67,10 @@ const AIChatWidget: React.FC = () => {
                                 <Bot size={24} />
                             </div>
                             <div>
-                                <h3 className="font-black text-lg leading-none">Trợ lý Wonder</h3>
+                                <h3 className="font-black text-lg leading-none">{t('aiChat.title')}</h3>
                                 <div className="flex items-center gap-1 text-xs opacity-90 mt-1">
                                     <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                    Sẵn sàng hỗ trợ
+                                    {t('aiChat.statusOnline')}
                                 </div>
                             </div>
                         </div>
@@ -117,7 +125,6 @@ const AIChatWidget: React.FC = () => {
                     {/* Input Area */}
                     <div className="p-4 bg-white border-t border-gray-100">
                         <div className="flex gap-2">
-
                             <input
                                 type="text"
                                 value={input}
@@ -129,7 +136,7 @@ const AIChatWidget: React.FC = () => {
                                         handleSend();
                                     }
                                 }}
-                                placeholder="Hỏi tớ đi nào..."
+                                placeholder={t('aiChat.inputPlaceholder')}
                                 className="flex-1 px-4 py-3 bg-gray-50 rounded-xl border border-gray-200 focus:border-brand-purple focus:ring-2 focus:ring-brand-purple/20 outline-none text-gray-700 placeholder:text-gray-400"
                             />
                             <button

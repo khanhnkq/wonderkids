@@ -1,18 +1,17 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import { curriculumData } from '../data/curriculum';
+import { getCurriculumData } from '../data/curriculum';
 import { ArrowLeft, Play, Clock, BookOpen } from 'lucide-react';
 import { ScribbleUnderline, ScribbleLoop } from '../components/Icons';
-
 import TourGuide, { TourStep } from '../components/TourGuide';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const LessonList: React.FC = () => {
     const { ageId } = useParams<{ ageId: string }>();
     const navigate = useNavigate();
     const [showTour, setShowTour] = useState(false);
+    const { t, language, isVi } = useLanguage();
 
     useEffect(() => {
         // Check if tour has been seen
@@ -25,7 +24,8 @@ const LessonList: React.FC = () => {
         }
     }, []);
 
-    const lessons = curriculumData.filter(l => l.ageGroup === ageId);
+    const allLessons = getCurriculumData(language);
+    const lessons = allLessons.filter(l => l.ageGroup === ageId);
 
     // Define color theme based on age group directly
     const getTheme = () => {
@@ -74,34 +74,46 @@ const LessonList: React.FC = () => {
     };
 
     const theme = getTheme();
-    const ageDisplay = ageId === '6-8' ? '6 - 8 Tuổi' : ageId === '9-11' ? '9 - 11 Tuổi' : ageId === '12-14' ? '12 - 14 Tuổi' : '15 - 17 Tuổi';
+    const ageDisplay = isVi
+        ? (ageId === '6-8' ? '6 - 8 Tuổi' : ageId === '9-11' ? '9 - 11 Tuổi' : ageId === '12-14' ? '12 - 14 Tuổi' : '15 - 17 Tuổi')
+        : (ageId === '6-8' ? 'Ages 6 - 8' : ageId === '9-11' ? 'Ages 9 - 11' : ageId === '12-14' ? 'Ages 12 - 14' : 'Ages 15 - 17');
 
     const tourSteps: TourStep[] = [
         {
             targetId: 'page-header',
-            title: 'Lộ trình học tập',
-            content: 'Chào mừng con! Đây là nơi con tìm thấy những bài học thú vị dành riêng cho lứa tuổi của mình.',
+            title: t('lessonList.tourSteps.step1Title'),
+            content: t('lessonList.tourSteps.step1Content'),
             position: 'bottom',
             gap: 60
         },
         {
             targetId: lessons.length > 0 ? 'first-lesson' : 'empty-state',
-            title: 'Kho tàng bài học',
-            content: 'Nơi chứa các bài học thú vị về Cơ thể, An toàn và Cảm xúc. Hãy chọn một thẻ để bắt đầu khám phá nhé!',
+            title: t('lessonList.tourSteps.step2Title'),
+            content: t('lessonList.tourSteps.step2Content'),
             position: 'right',
             gap: 60
         },
         {
             targetId: 'back-btn',
-            title: 'Quay lại bất cứ lúc nào',
-            content: 'Nếu con muốn xem nội dung của độ tuổi khác, hãy bấm vào đây để quay lại màn hình chọn tuổi.',
+            title: t('lessonList.backToTopics'),
+            content: t('lessonList.tourSteps.step1Content'),
             position: 'bottom',
             gap: 100
         }
     ];
 
+    const getCategoryLabel = (category: string) => {
+        switch (category) {
+            case 'Body': return isVi ? 'Cơ thể' : 'Body';
+            case 'Safety': return isVi ? 'An toàn' : 'Safety';
+            case 'Respect': return isVi ? 'Tôn trọng' : 'Respect';
+            case 'Emotion': return isVi ? 'Cảm xúc' : 'Emotion';
+            default: return category;
+        }
+    };
+
     return (
-        <div className={`min-h-screen font-sans selection:bg-brand-yellow/30 relative overflow-hidden`}>
+        <div className="min-h-screen font-sans selection:bg-brand-yellow/30 relative overflow-hidden">
             {/* Thematic Background Layer */}
             <div className="fixed inset-0 z-0">
                 <img
@@ -116,8 +128,6 @@ const LessonList: React.FC = () => {
                 <div className={`absolute inset-0 ${theme.lightBg} opacity-70 mix-blend-multiply`} />
                 <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
             </div>
-
-
 
             <TourGuide
                 steps={tourSteps}
@@ -147,23 +157,21 @@ const LessonList: React.FC = () => {
                             <div className="bg-white p-2 rounded-full shadow-sm group-hover:shadow-md transition-all">
                                 <ArrowLeft size={20} />
                             </div>
-                            <span>Chọn độ tuổi khác</span>
+                            <span>{t('lessonList.backToTopics')}</span>
                         </button>
                     </div>
 
                     <div className="flex flex-col items-center text-center" id="page-header">
                         <div className={`px-4 py-1.5 rounded-full ${theme.bg} ${theme.text} bg-opacity-30 text-sm font-black tracking-wider uppercase mb-3 animate-fade-in`}>
-                            Dành cho lứa tuổi {ageDisplay}
+                            {t('lessonList.curriculumTitle')} {ageDisplay}
                         </div>
                         <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-4 relative inline-block">
-                            Danh sách bài học
+                            {isVi ? 'Danh sách bài học' : 'Curriculum Lessons'}
                             <span className="absolute -bottom-6 right-0 w-full text-brand-yellow">
                                 <ScribbleUnderline />
                             </span>
                         </h1>
                     </div>
-
-
                 </div>
 
                 {lessons.length === 0 ? (
@@ -171,8 +179,12 @@ const LessonList: React.FC = () => {
                         <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                             <BookOpen size={40} className="text-gray-300" />
                         </div>
-                        <h3 className="text-xl font-bold text-gray-800 mb-2">Đang xây dựng...</h3>
-                        <p className="text-gray-500">Nội dung cho độ tuổi này sẽ sớm ra mắt!</p>
+                        <h3 className="text-xl font-bold text-gray-800 mb-2">
+                            {isVi ? 'Đang xây dựng...' : 'Coming Soon...'}
+                        </h3>
+                        <p className="text-gray-500">
+                            {isVi ? 'Nội dung cho độ tuổi này sẽ sớm ra mắt!' : 'Lessons for this age group are being prepared!'}
+                        </p>
                     </div>
                 ) : (
                     <div id="lesson-grid" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
@@ -210,9 +222,7 @@ const LessonList: React.FC = () => {
                                                 lesson.category === 'Safety' ? 'bg-red-500/80' :
                                                     lesson.category === 'Respect' ? 'bg-green-500/80' : 'bg-purple-500/80'}
                                         `}>
-                                            {lesson.category === 'Body' ? 'Cơ thể' :
-                                                lesson.category === 'Safety' ? 'An toàn' :
-                                                    lesson.category === 'Respect' ? 'Tôn trọng' : 'Cảm xúc'}
+                                            {getCategoryLabel(lesson.category)}
                                         </span>
                                     </div>
 
@@ -240,7 +250,7 @@ const LessonList: React.FC = () => {
                                             transition-all duration-300
                                             flex items-center justify-between px-2 pl-6
                                         `}>
-                                            <span className="text-xs uppercase tracking-widest">Bắt đầu học</span>
+                                            <span className="text-xs uppercase tracking-widest">{t('lessonList.startLesson')}</span>
                                             <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                                                 <Play size={14} fill="currentColor" />
                                             </div>

@@ -1,23 +1,25 @@
 import React from 'react';
-import { Gamepad2, Palette, Lightbulb, ArrowUpRight, MessageCircle } from 'lucide-react';
+import { Gamepad2, Palette, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { useChat } from '../contexts/ChatContext';
+import { useLanguage } from '../contexts/LanguageContext';
 import FadeIn from './animations/FadeIn';
 
 const Features: React.FC = () => {
   const { openChat } = useChat();
+  const { t } = useLanguage();
 
   return (
     <section id="features" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            Phương pháp <span className="text-brand-purple italic">giáo dục</span> <br />
-            tương tác
+            {t('features.titlePart1')} <span className="text-brand-purple italic">{t('features.titleHighlight')}</span> <br />
+            {t('features.titlePart2')}
           </h2>
           <div className="flex gap-2 mt-4">
-            <span className="px-4 py-1 bg-purple-100 text-brand-purple rounded-full text-sm font-bold">#an_toàn</span>
-            <span className="px-4 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-bold">#tôn_trọng</span>
-            <span className="px-4 py-1 bg-brand-purple text-white rounded-full text-sm font-bold">#phát_triển</span>
+            <span className="px-4 py-1 bg-purple-100 text-brand-purple rounded-full text-sm font-bold">{t('features.tagSafe')}</span>
+            <span className="px-4 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm font-bold">{t('features.tagRespect')}</span>
+            <span className="px-4 py-1 bg-brand-purple text-white rounded-full text-sm font-bold">{t('features.tagGrowth')}</span>
           </div>
         </div>
 
@@ -42,9 +44,13 @@ const Features: React.FC = () => {
               </div>
 
               <div className="relative z-10">
-                <h3 className="text-3xl font-bold text-gray-800 mb-3 group-hover:text-brand-purple transition-colors">Trò chuyện vui</h3>
-                <p className="text-gray-600 mb-2">Hỏi đáp cùng Trợ lý Wonder về mọi điều thắc mắc nhé!</p>
-                <span className="text-sm font-bold text-brand-purple flex items-center gap-2">Thử ngay <ArrowUpRight size={16} /></span>
+                <h3 className="text-3xl font-bold text-gray-800 mb-3 group-hover:text-brand-purple transition-colors">
+                  {t('features.card1Title')}
+                </h3>
+                <p className="text-gray-600 mb-2">{t('features.card1Desc')}</p>
+                <span className="text-sm font-bold text-brand-purple flex items-center gap-2">
+                  {t('common.tryNow')} <ArrowUpRight size={16} />
+                </span>
               </div>
             </div>
           </FadeIn>
@@ -66,8 +72,8 @@ const Features: React.FC = () => {
               </div>
 
               <div className="relative z-10 text-white">
-                <h3 className="text-3xl font-bold mb-3">Hoạt động sáng tạo</h3>
-                <p className="text-brand-lightPurple mb-2">Khám phá các hoạt động như vẽ tranh và tìm hiểu cấu tạo cơ thể.</p>
+                <h3 className="text-3xl font-bold mb-3">{t('features.card2Title')}</h3>
+                <p className="text-brand-lightPurple mb-2">{t('features.card2Desc')}</p>
               </div>
             </div>
           </FadeIn>
@@ -89,8 +95,8 @@ const Features: React.FC = () => {
               </div>
 
               <div className="relative z-10">
-                <h3 className="text-3xl font-bold text-gray-900 mb-3">Học qua trò chơi</h3>
-                <p className="text-gray-800 mb-2">Học cách tự bảo vệ bản thân qua các trò chơi tình huống!</p>
+                <h3 className="text-3xl font-bold text-gray-900 mb-3">{t('features.card3Title')}</h3>
+                <p className="text-gray-800 mb-2">{t('features.card3Desc')}</p>
               </div>
             </div>
           </FadeIn>

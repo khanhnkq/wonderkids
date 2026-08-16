@@ -2,14 +2,16 @@ import React from 'react';
 import { Teacher } from '../types';
 import { Sparkle } from './Icons';
 import FadeIn from './animations/FadeIn';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const teachers: Teacher[] = [
-  { id: 1, name: "Lương Ngọc Bảo Trân", role: "Thành viên", image: "/images/avatars/member1.jpg", color: "bg-yellow-100" },
-  { id: 2, name: "Phan Thị Thuỳ Nhung", role: "Thành viên", image: "/images/avatars/member2.jpg", color: "bg-pink-100" },
-  { id: 3, name: "Nguyễn Gia Triều", role: "Thành viên", image: "/images/avatars/member3.jpg", color: "bg-blue-100" },
+  { id: 1, name: "Luong Ngoc Bao Tran", role: "Team Member", image: "/images/avatars/member1.jpg", color: "bg-yellow-100" },
+  { id: 2, name: "Nguyen Kim Quoc Khanh", role: "Team Member", image: "/images/avatars/khanhnkq.jpg", color: "bg-blue-100" },
 ];
 
 const Mission: React.FC = () => {
+  const { t, isVi } = useLanguage();
+
   return (
     <section id="about" className="bg-brand-purple py-24 relative overflow-hidden">
       {/* Background decoration */}
@@ -23,9 +25,9 @@ const Mission: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-20">
           <FadeIn delay={0.2}>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
-              Chúng tôi mong muốn giúp trẻ <br />
-              <span className="text-brand-yellow italic font-hand">khám phá và yêu thương</span> <br />
-              bản thân để phát triển toàn diện.
+              {t('mission.statementPart1')} <br />
+              <span className="text-brand-yellow italic font-hand">{t('mission.statementHighlight')}</span> <br />
+              {t('mission.statementPart2')}
             </h2>
           </FadeIn>
         </div>
@@ -38,15 +40,23 @@ const Mission: React.FC = () => {
                   {/* Circle background with hover effect */}
                   <div className={`absolute inset-0 ${teacher.color} rounded-full transform scale-0 group-hover:scale-110 transition-transform duration-300 -z-10`}></div>
                   <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white/20 p-1 group-hover:border-white transition-colors overflow-hidden mx-auto bg-white/5">
-                    <img src={teacher.image} alt={teacher.name} className="w-full h-full object-cover rounded-full" />
+                    <img
+                      src={teacher.image}
+                      alt={teacher.name}
+                      className="w-full h-full object-cover rounded-full"
+                    />
                   </div>
                   {/* Hover Icon */}
                   <div className="absolute bottom-0 right-0 bg-white text-brand-purple rounded-full p-2 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all">
                     <Sparkle className="w-4 h-4" />
                   </div>
                 </div>
-                <h3 className="text-white font-bold text-lg">{teacher.name}</h3>
-                <p className="text-brand-lightPurple text-sm">{teacher.role}</p>
+                <h3 className="text-white font-bold text-lg">
+                  {isVi
+                    ? (teacher.id === 1 ? "Lương Ngọc Bảo Trân" : "Nguyễn Kim Quốc Khánh")
+                    : teacher.name}
+                </h3>
+                <p className="text-brand-lightPurple text-sm">{t('mission.teamMemberRole')}</p>
               </div>
             </FadeIn>
           ))}

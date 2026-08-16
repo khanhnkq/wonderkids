@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { BlogPost } from '../types';
-import { ArrowRight, X } from 'lucide-react';
+import React, { useState } from "react";
+import { BlogPost } from "../types";
+import { ArrowRight, X } from "lucide-react";
+import { useLanguage } from "../contexts/LanguageContext";
 
-const posts: BlogPost[] = [
+const postsVi: BlogPost[] = [
   {
     id: 1,
     title: "Bé học yêu thương bản thân 💕",
-    excerpt: "Cùng khám phá những điều tuyệt vời về cơ thể mình qua những câu chuyện dễ thương và hoạt động vui nhộn!",
+    excerpt:
+      "Cùng khám phá những điều tuyệt vời về cơ thể mình qua những câu chuyện dễ thương và hoạt động vui nhộn!",
     content: `🌈 Chào các bạn nhỏ! Hôm nay chúng mình sẽ cùng khám phá một điều siêu thú vị - đó chính là CƠ THỂ của mình nè!
 
 🎈 Bạn có biết không? Cơ thể mình giống như một ngôi nhà kỳ diệu vậy đó! Mỗi bộ phận đều có một "công việc" riêng thật đặc biệt:
@@ -25,12 +27,13 @@ const posts: BlogPost[] = [
 Các bạn thật tuyệt vời! 🌟`,
     image: "/blog-1.png",
     author: "Wonder",
-    date: "20 Th9"
+    date: "20 Th9",
   },
   {
     id: 2,
     title: "10 câu hỏi 'siêu cute' của bé ✨",
-    excerpt: "Những thắc mắc hồn nhiên về cơ thể mà các bạn nhỏ hay hỏi - Ba mẹ cùng trò chuyện nhé!",
+    excerpt:
+      "Những thắc mắc hồn nhiên về cơ thể mà các bạn nhỏ hay hỏi - Ba mẹ cùng trò chuyện nhé!",
     content: `🎀 Ba mẹ ơi, con có câu hỏi nè!
 
 Các bạn nhỏ thường rất tò mò và đặt ra những câu hỏi siêu dễ thương. Đây là 10 câu hỏi phổ biến nhất:
@@ -55,12 +58,13 @@ Các bạn nhỏ thường rất tò mò và đặt ra những câu hỏi siêu 
 💬 Mẹo cho ba mẹ: Hãy trả lời bằng giọng nhẹ nhàng và sử dụng ngôn ngữ phù hợp với tuổi của bé nhé! 💕`,
     image: "/blog-2.png",
     author: "Wonder",
-    date: "22 Th9"
+    date: "22 Th9",
   },
   {
     id: 3,
     title: "Mình là siêu anh hùng! 🦸",
-    excerpt: "Học cách bảo vệ bản thân thật vui với những bí kíp đơn giản dành cho các chiến binh nhí!",
+    excerpt:
+      "Học cách bảo vệ bản thân thật vui với những bí kíp đơn giản dành cho các chiến binh nhí!",
     content: `🦸‍♀️ CHÀO MỪNG CÁC SIÊU ANH HÙNG NHÍ! 🦸‍♂️
 
 Hôm nay, chúng mình sẽ học những "bí kíp thần thánh" để bảo vệ bản thân nhé!
@@ -83,17 +87,121 @@ Luôn kể cho ba mẹ, thầy cô hoặc người lớn tin tưởng biết n�
 Các bạn đã sẵn sàng trở thành Siêu Anh Hùng chưa nào? 🌟`,
     image: "/blog-3.png",
     author: "Wonder",
-    date: "25 Th9"
+    date: "25 Th9",
+  },
+];
+
+const postsEn: BlogPost[] = [
+  {
+    id: 1,
+    title: "Learning to Love & Respect Myself 💕",
+    excerpt:
+      "Discover the amazing wonders of your own body through cute stories, positive affirmation, and fun activities!",
+    content: `🌈 Hello young friends! Today we will explore something wonderful and super fun: our very own BODY!
+
+🎈 Did you know? Your body is like a magnificent magical house! Every single part has an extraordinary job:
+• Eyes to see the blue sky and colorful flowers 👀
+• Ears to hear melodious birdsong 🎵
+• Arms to give big warm hugs to family 🤗
+• Legs to run, play, and meet friends at school 🏃
+
+💖 Most importantly: Your body belongs strictly to YOU, and you hold every power to protect it!
+
+🌟 Always remember these 3 magic rules:
+1. I love and appreciate my body
+2. I know how to keep my body clean and safe
+3. I will speak up to trusted adults whenever someone makes me feel uneasy
+
+You are truly amazing! 🌟`,
+    image: "/blog-1.png",
+    author: "Wonder",
+    date: "Sep 20",
+  },
+  {
+    id: 2,
+    title: "10 Cute Questions Kids Ask About Their Bodies ✨",
+    excerpt:
+      "Innocent questions kids ask about growing up, and how parents can answer with warmth and scientific accuracy!",
+    content: `🎀 Dear parents, kids have so many curious questions!
+
+Children are naturally inquisitive. Here are top everyday questions and child-friendly answers:
+
+1. 🤔 "Why are boys and girls different?"
+→ Just like flowers come in various shapes and colors, human bodies have natural, wonderful diversity!
+
+2. 🛁 "Why do we shower every day?"
+→ To keep our protective skin barrier clean, energized, and strong like superheroes!
+
+3. 👶 "Where do babies come from?"
+→ Babies grow safely inside a mother's womb, surrounded by love before birth!
+
+4. 🔒 "What are private zones?"
+→ These are areas covered by your swimsuit; strictly yours to care for and protect!
+
+5. 🤝 "When is hugging others okay?"
+→ When both individuals are happy, comfortable, and mutually agree!
+
+💬 Parent Tip: Respond with a calm, gentle tone and simple, age-appropriate words! 💕`,
+    image: "/blog-2.png",
+    author: "Wonder",
+    date: "Sep 22",
+  },
+  {
+    id: 3,
+    title: "I Am My Own Superhero! 🦸",
+    excerpt:
+      "Essential self-defense and personal protection secrets every young explorer should know!",
+    content: `🦸‍♀️ WELCOME LITTLE SUPERHEROES! 🦸‍♂️
+
+Today, we will master our superhero protection secrets!
+
+⚡ SUPER SECRET 1: THE SWIMSUIT RULE
+Parts covered by your swimsuit are your private zones. No one may touch or photograph them, except medical exams with parents present!
+
+⚡ SUPER SECRET 2: THE SUPER POWER VOICE
+If anyone makes you feel uncomfortable, shout with confidence: "NO! STOP IT RIGHT NOW!"
+
+⚡ SUPER SECRET 3: THE TURBO ESCAPE
+If a situation feels unsafe, step or run away toward safe, crowded places immediately!
+
+⚡ SUPER SECRET 4: TELL YOUR TRUST TEAM
+Always share your feelings with parents, teachers, or trusted adults if something troubles you.
+
+🏅 Superhero Oath:
+"I will love, respect, and protect my body at all times!"
+
+Are you ready to be a superhero? 🌟`,
+    image: "/blog-3.png",
+    author: "Wonder",
+    date: "Sep 25",
   },
 ];
 
 const Blog: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const { t, isVi } = useLanguage();
+
+  const posts = isVi ? postsVi : postsEn;
 
   const colors = [
-    { border: 'border-[#22d3ee]', bg: 'bg-[#ecfeff]', accent: 'text-[#0891b2]', btnBg: 'bg-[#22d3ee]' },
-    { border: 'border-[#facc15]', bg: 'bg-[#fefce8]', accent: 'text-[#ca8a04]', btnBg: 'bg-[#facc15]' },
-    { border: 'border-[#c084fc]', bg: 'bg-[#faf5ff]', accent: 'text-[#9333ea]', btnBg: 'bg-[#c084fc]' }
+    {
+      border: "border-[#22d3ee]",
+      bg: "bg-[#ecfeff]",
+      accent: "text-[#0891b2]",
+      btnBg: "bg-[#22d3ee]",
+    },
+    {
+      border: "border-[#facc15]",
+      bg: "bg-[#fefce8]",
+      accent: "text-[#ca8a04]",
+      btnBg: "bg-[#facc15]",
+    },
+    {
+      border: "border-[#c084fc]",
+      bg: "bg-[#faf5ff]",
+      accent: "text-[#9333ea]",
+      btnBg: "bg-[#c084fc]",
+    },
   ];
 
   return (
@@ -101,11 +209,16 @@ const Blog: React.FC = () => {
       <section id="blog" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex items-end justify-between">
-            <h2 className="text-4xl font-bold text-gray-900">
-              Bài viết <span className="text-brand-purple italic">mới nhất</span>
-            </h2>
-            <a href="#" className="hidden md:flex items-center gap-2 text-gray-600 font-bold hover:text-brand-purple transition-colors">
-              Xem tất cả <ArrowRight size={20} />
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-2">
+                {t("blog.title")}
+              </h2>
+              <p className="text-gray-600 max-w-xl">{t("blog.subtitle")}</p>
+            </div>
+            <a
+              href="#blog"
+              className="hidden md:flex items-center gap-2 text-gray-600 font-bold hover:text-brand-purple transition-colors">
+              {t("common.viewDetails")} <ArrowRight size={20} />
             </a>
           </div>
 
@@ -117,10 +230,10 @@ const Blog: React.FC = () => {
                 <div
                   key={post.id}
                   onClick={() => setSelectedPost(post)}
-                  className={`group relative ${color.bg} rounded-[2rem] p-5 border-4 ${color.border} hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col cursor-pointer`}
-                >
+                  className={`group relative ${color.bg} rounded-[2rem] p-5 border-4 ${color.border} hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col cursor-pointer`}>
                   {/* Decorative corner */}
-                  <div className={`absolute -top-3 -right-3 w-8 h-8 ${color.btnBg} rounded-full opacity-50`}></div>
+                  <div
+                    className={`absolute -top-3 -right-3 w-8 h-8 ${color.btnBg} rounded-full opacity-50`}></div>
 
                   <div className="h-52 rounded-2xl overflow-hidden mb-5 relative">
                     <img
@@ -128,20 +241,25 @@ const Blog: React.FC = () => {
                       alt={post.title}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                     />
-                    <div className={`absolute top-3 left-3 ${color.bg} backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-black ${color.accent} border-2 ${color.border}`}>
-                      📅 {post.date}
+                    <div
+                      className={`absolute top-3 left-3 ${color.bg} backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-black ${color.accent} border-2 ${color.border}`}>
+                      {post.date}
                     </div>
                   </div>
 
                   <h3 className="text-xl font-black text-gray-800 mb-2 flex-grow group-hover:text-brand-purple transition-colors">
                     {post.title}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-5 line-clamp-2">{post.excerpt}</p>
+                  <p className="text-gray-600 text-sm mb-5 line-clamp-2">
+                    {post.excerpt}
+                  </p>
 
                   <div className="mt-auto">
-                    <button className={`flex items-center gap-2 ${color.accent} text-sm font-black hover:gap-4 transition-all`}>
-                      Đọc thêm
-                      <div className={`w-8 h-8 rounded-full ${color.btnBg} text-white flex items-center justify-center`}>
+                    <button
+                      className={`flex items-center gap-2 ${color.accent} text-sm font-black hover:gap-4 transition-all`}>
+                      {t("blog.readMore")}
+                      <div
+                        className={`w-8 h-8 rounded-full ${color.btnBg} text-white flex items-center justify-center`}>
                         <ArrowRight size={14} />
                       </div>
                     </button>
@@ -150,10 +268,6 @@ const Blog: React.FC = () => {
               );
             })}
           </div>
-
-          <div className="mt-8 text-center md:hidden">
-            <button className="text-gray-600 font-bold border-b-2 border-gray-300">Xem tất cả bài viết</button>
-          </div>
         </div>
       </section>
 
@@ -161,12 +275,10 @@ const Blog: React.FC = () => {
       {selectedPost && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedPost(null)}
-        >
+          onClick={() => setSelectedPost(null)}>
           <div
             className="bg-gradient-to-br from-[#fef7ff] via-white to-[#f0fdfa] rounded-[2.5rem] max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl border-4 border-brand-purple/20"
-            onClick={(e) => e.stopPropagation()}
-          >
+            onClick={(e) => e.stopPropagation()}>
             {/* Header Image */}
             <div className="relative h-48 md:h-56">
               <img
@@ -175,13 +287,16 @@ const Blog: React.FC = () => {
                 className="w-full h-full object-cover"
               />
               {/* Decorative shapes */}
-              <div className="absolute top-4 left-4 w-6 h-6 bg-brand-yellow rounded-full animate-bounce" style={{ animationDuration: '2s' }}></div>
-              <div className="absolute top-12 left-8 w-4 h-4 bg-brand-purple rounded-full animate-bounce" style={{ animationDuration: '3s' }}></div>
+              <div
+                className="absolute top-4 left-4 w-6 h-6 bg-brand-yellow rounded-full animate-bounce"
+                style={{ animationDuration: "2s" }}></div>
+              <div
+                className="absolute top-12 left-8 w-4 h-4 bg-brand-purple rounded-full animate-bounce"
+                style={{ animationDuration: "3s" }}></div>
 
               <button
                 onClick={() => setSelectedPost(null)}
-                className="absolute top-4 right-4 bg-white/90 backdrop-blur p-2.5 rounded-full hover:bg-white hover:scale-110 transition-all shadow-lg"
-              >
+                className="absolute top-4 right-4 bg-white/90 backdrop-blur p-2.5 rounded-full hover:bg-white hover:scale-110 transition-all shadow-lg">
                 <X size={22} className="text-gray-700" />
               </button>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent p-6">
@@ -200,41 +315,56 @@ const Blog: React.FC = () => {
               {/* Meta info badges */}
               <div className="flex flex-wrap items-center gap-3 mb-6">
                 <span className="bg-gradient-to-r from-brand-purple to-purple-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
-                  ✍️ {selectedPost.author}
+                  {selectedPost.author}
                 </span>
                 <span className="bg-gradient-to-r from-brand-yellow to-orange-400 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
-                  📅 {selectedPost.date}
+                  {selectedPost.date}
                 </span>
                 <span className="bg-gradient-to-r from-cyan-400 to-blue-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
-                  ⏱️ 3 phút đọc
+                  {t("common.minutes")}
                 </span>
               </div>
 
               {/* Content with styled paragraphs */}
               <div className="space-y-4">
-                {selectedPost.content?.split('\n').map((line, i) => {
+                {selectedPost.content?.split("\n").map((line, i) => {
                   // Style headings differently
-                  if (line.startsWith('🌟') || line.startsWith('💖') || line.startsWith('⚡') || line.startsWith('🏅')) {
+                  if (
+                    line.startsWith("🌟") ||
+                    line.startsWith("💖") ||
+                    line.startsWith("⚡") ||
+                    line.startsWith("🏅")
+                  ) {
                     return (
-                      <div key={i} className="bg-gradient-to-r from-brand-lightPurple/50 to-transparent p-4 rounded-2xl border-l-4 border-brand-purple">
-                        <p className="text-gray-800 font-bold text-lg">{line}</p>
+                      <div
+                        key={i}
+                        className="bg-gradient-to-r from-brand-lightPurple/50 to-transparent p-4 rounded-2xl border-l-4 border-brand-purple">
+                        <p className="text-gray-800 font-bold text-lg">
+                          {line}
+                        </p>
                       </div>
                     );
                   }
                   // Style list items with bullets
-                  if (line.startsWith('•') || line.startsWith('→')) {
+                  if (line.startsWith("•") || line.startsWith("→")) {
                     return (
                       <div key={i} className="flex items-start gap-3 ml-4">
                         <span className="w-2 h-2 bg-brand-purple rounded-full mt-2 flex-shrink-0"></span>
-                        <p className="text-gray-700 leading-relaxed">{line.replace('•', '').replace('→', '')}</p>
+                        <p className="text-gray-700 leading-relaxed">
+                          {line.replace("•", "").replace("→", "")}
+                        </p>
                       </div>
                     );
                   }
                   // Style numbered items
                   if (line.match(/^\d+\./)) {
                     return (
-                      <div key={i} className="bg-white/60 backdrop-blur p-4 rounded-xl shadow-sm border border-gray-100">
-                        <p className="text-gray-700 leading-relaxed font-medium">{line}</p>
+                      <div
+                        key={i}
+                        className="bg-white/60 backdrop-blur p-4 rounded-xl shadow-sm border border-gray-100">
+                        <p className="text-gray-700 leading-relaxed font-medium">
+                          {line}
+                        </p>
                       </div>
                     );
                   }
@@ -242,7 +372,9 @@ const Blog: React.FC = () => {
                   if (!line.trim()) return null;
                   // Regular paragraphs
                   return (
-                    <p key={i} className="text-gray-700 leading-relaxed text-base">
+                    <p
+                      key={i}
+                      className="text-gray-700 leading-relaxed text-base">
                       {line}
                     </p>
                   );
@@ -254,9 +386,8 @@ const Blog: React.FC = () => {
             <div className="p-6 bg-gradient-to-r from-brand-lightPurple/30 via-white to-cyan-50/30 border-t border-gray-100 flex justify-center gap-4">
               <button
                 onClick={() => setSelectedPost(null)}
-                className="bg-gradient-to-r from-brand-purple to-purple-600 text-white px-8 py-3 rounded-full font-bold hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2"
-              >
-                <span>Đóng bài viết</span>
+                className="bg-gradient-to-r from-brand-purple to-purple-600 text-white px-8 py-3 rounded-full font-bold hover:shadow-xl hover:-translate-y-1 transition-all flex items-center gap-2">
+                <span>{t("blog.close")}</span>
               </button>
             </div>
           </div>

@@ -1,12 +1,14 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Play, Star, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { ScribbleUnderline, ScribbleLoop, ScribbleArrow } from './Icons';
 import FadeIn from './animations/FadeIn';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
   return (
     <section className="relative pt-12 pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -21,16 +23,18 @@ const Hero: React.FC = () => {
               </div>
 
               <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 leading-[1.1] tracking-tight mb-8">
-                Nền tảng <br />
+                {t('hero.titlePart1')} <br />
                 <span className="relative inline-block text-brand-purple italic px-2">
-                  giáo dục
+                  {t('hero.titleHighlight1')}
                   <ScribbleUnderline className="absolute -bottom-2 left-0 w-full text-brand-yellow" />
-                </span> giới tính <span className="text-brand-yellow font-hand">toàn diện</span> <br />
-                cho trẻ em
+                </span>{' '}
+                {t('hero.titlePart2')}{' '}
+                <span className="text-brand-yellow font-hand">{t('hero.titleHighlight2')}</span> <br />
+                {t('hero.titlePart3')}
               </h1>
 
               <p className="text-lg text-gray-600 mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                Giúp trẻ hiểu đúng về cơ thể, tôn trọng bản thân và phòng tránh xâm hại qua các bài học tương tác thú vị và phù hợp lứa tuổi.
+                {t('hero.description')}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
@@ -38,7 +42,7 @@ const Hero: React.FC = () => {
                   onClick={() => navigate('/curriculum')}
                   className="bg-brand-purple text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-darkPurple transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 flex items-center gap-2"
                 >
-                  Bắt đầu ngay
+                  {t('common.startNow')}
                   <div className="bg-white/20 rounded-full p-1">
                     <ArrowRight size={20} />
                   </div>
@@ -54,7 +58,7 @@ const Hero: React.FC = () => {
                   }}
                   className="text-gray-500 font-bold hover:text-brand-purple transition-colors px-6 py-4"
                 >
-                  Tìm hiểu thêm
+                  {t('common.learnMore')}
                 </button>
               </div>
 
@@ -79,7 +83,7 @@ const Hero: React.FC = () => {
                     <div className="absolute inset-0 bg-brand-yellow rounded-[40px] rotate-3 transform"></div>
                     <img
                       src="/hero-child.jpg"
-                      alt="Trẻ em học tập vui vẻ"
+                      alt={t('hero.imgAlt')}
                       className="absolute inset-0 w-full h-full object-cover rounded-[40px] -rotate-3 border-4 border-white shadow-xl"
                     />
                   </div>
@@ -87,8 +91,8 @@ const Hero: React.FC = () => {
                   {/* Floating Elements (Badges/Stickers) */}
                   <div className="absolute top-0 right-10 bg-white p-4 rounded-full shadow-lg z-30 animate-bounce" style={{ animationDuration: '3s' }}>
                     <div className="text-center">
-                      <span className="block font-bold text-brand-purple text-sm">Giáo dục</span>
-                      <span className="block text-xs text-gray-500">Giới tính</span>
+                      <span className="block font-bold text-brand-purple text-sm">{t('hero.badgeSexEd')}</span>
+                      <span className="block text-xs text-gray-500">{t('hero.badgeSexEdSub')}</span>
                     </div>
                   </div>
 
@@ -97,8 +101,8 @@ const Hero: React.FC = () => {
                       <ArrowRight size={20} />
                     </div>
                     <div>
-                      <span className="block font-bold text-gray-800">Tham gia ngay</span>
-                      <span className="block text-xs text-gray-500">2k+ Học viên</span>
+                      <span className="block font-bold text-gray-800">{t('hero.badgeJoin')}</span>
+                      <span className="block text-xs text-gray-500">{t('hero.badgeLearners')}</span>
                     </div>
                   </div>
                 </div>
